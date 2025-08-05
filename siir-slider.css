@@ -1,0 +1,144 @@
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    touch-action: pan-y;
+}
+
+/* Şiir Slider Container */
+.poem-slider-container {
+    position: relative;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+}
+
+/* Şiir Slider */
+.poem-slider {
+    position: relative;
+    /* min-height artık JavaScript tarafından ayarlanacak */
+    width: 100%;
+    margin-bottom: 0; /* Dots için margin kaldırıldı */
+    overflow: hidden;
+}
+
+/* Şiir Container */
+.poem-container {
+     position: relative; /* Dots-container'ın pozisyonlanması için */
+    padding-bottom: 50px; /* Noktalar için alt boşluk */
+    width: 100%;
+    padding: 30px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.245);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.6s ease-in-out;
+    box-sizing: border-box;
+}
+
+.poem-container.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.poem-container.next {
+    transform: translateX(100%);
+}
+
+.poem-container.prev {
+    transform: translateX(-100%);
+}
+
+/* Şiir Metin Stilleri */
+.poem-text {
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 18px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    padding: 0 10px;
+    transition: all 0.3s ease;
+}
+
+.poem-container h2 {
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+/* Dots Container */
+.dots-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    position: absolute;
+    bottom: 20px; /* Şiir kutusunun altına sabitlenir */
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+/* Dots */
+.dot {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+}
+
+.dot.active {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.2);
+}
+
+.dot:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+/* Yazı Parlama Efekti */
+.poem-container:hover .poem-text,
+.poem-container:hover h2 {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+    color: #fff;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+    .poem-container {
+        padding: 20px;
+    }
+    
+    .dot {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+.poem-container {
+    /* ... diğer stiller ... */
+    min-height: auto; /* JavaScript tarafından ayarlanacak */
+    overflow: hidden; /* İçerik taşmasını önle */
+}
+
+.poem-slider {
+    /* ... diğer stiller ... */
+    min-height: auto; /* JavaScript tarafından ayarlanacak */
+    transition: min-height 0.3s ease; /* Yumuşak geçiş efekti */
+}
+

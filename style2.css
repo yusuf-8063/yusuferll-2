@@ -1,0 +1,687 @@
+html, body {
+    overflow-x: hidden; /* Yatay scroll'u engeller */
+    width: 100%;
+    max-width: 100%; /* İçeriğin sayfayı aşmasını engeller */
+}
+
+
+/* Hareketli Arkaplan Stili */
+#animated-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: #000;
+}
+
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.7;
+    filter: blur(30px);
+    mix-blend-mode: screen;
+    will-change: transform; /* Performans optimizasyonu */
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    25% {
+        transform: translate(100px, -50px) scale(1.2);
+    }
+    50% {
+        transform: translate(-80px, 60px) scale(0.8);
+    }
+    75% {
+        transform: translate(120px, 30px) scale(1.1);
+    }
+}
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+ background: linear-gradient(135deg, #3425dd, #ff8e9e, #ffb3c1);
+    color: #fff;
+    margin-top:2%;
+}
+
+
+
+
+/* Yeni Timeline Tasarımı */
+
+.modern-timeline {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+.modern-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, 
+        transparent 0%, 
+        #ff6b6b 20%, 
+        #48dbfb 80%, 
+        transparent 100%);
+    z-index: 1;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline-date {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff6b6b;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 2;
+
+    
+}
+
+.timeline-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #48dbfb);
+    border: 4px solid white;
+    box-shadow: 0 0 0 6px rgba(255,107,107,0.2);
+    position: relative;
+    z-index: 2;
+    margin-bottom: 15px;
+}
+
+.timeline-content {
+    width: 90%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, 
+        rgba(255,107,107,0.2), 
+        rgba(72,219,251,0.2));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.timeline-content:hover::before {
+    opacity: 1;
+}
+
+.timeline-content h3 {
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 22px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.timeline-content p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+    .modern-timeline::before {
+        left: 20px;
+    }
+    
+    .timeline-item {
+        flex-direction: row;
+        align-items: flex-start;
+        margin-bottom: 40px;
+    }
+    
+    .timeline-date {
+        width: 80px;
+        margin-bottom: 0;
+        margin-right: 15px;
+        text-align: right;
+    }
+    
+    .timeline-dot {
+        order: -1;
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+    
+    .timeline-content {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+
+
+/* ===== TEMEL STİLLER ===== */
+.timeline-date {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 8px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.15);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+    color: #ff6b6b;
+    cursor: pointer; /* Tarihe tıklanabilir görünüm */
+}
+
+.timeline-dot {
+    /* NOKTA SABİT - HİÇBİR EFEKT YOK */
+}
+
+.timeline-content {
+    background: linear-gradient(135deg,
+        rgba(255, 88, 206, 0.18),
+        rgba(255, 184, 0, 0.18));
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+/* ===== TARİH HOVER EFEKTİ ===== */
+.timeline-date:hover,
+.timeline-date:hover ~ .timeline-content {
+    transform: translateY(-5px) scale(1.05);
+    background: linear-gradient(135deg,
+        rgba(255, 107, 107, 0.3),
+        rgba(72, 219, 251, 0.3));
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.35);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.timeline-date:hover {
+    color: white !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+/* ===== KUTUCUK HOVER EFEKTİ ===== */
+.timeline-content:hover,
+.timeline-content:hover ~ .timeline-date {
+    transform: translateY(-5px) scale(1.05);
+    background: linear-gradient(135deg,
+        rgba(255, 107, 107, 0.3),
+        rgba(72, 219, 251, 0.3));
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.35);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.timeline-content:hover ~ .timeline-date {
+    color: white !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+/* ORTAK YAZI STİLLERİ */
+.timeline-date:hover,
+.timeline-content:hover h3,
+.timeline-content:hover p,
+.timeline-content:hover ~ .timeline-date {
+    color: white;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* ===== MOBİL UYUM ===== */
+@media (max-width: 768px) {
+    .timeline-date:hover,
+    .timeline-date:hover ~ .timeline-content,
+    .timeline-content:hover,
+    .timeline-content:hover ~ .timeline-date {
+        transform: translateY(-3px) scale(1.03);
+    }
+}
+
+
+/* geri butonu için */
+.left-action-btn-container {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 10;
+    opacity: 1;
+}
+
+.left-action-btn-container .action-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 32px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    background: rgba(255, 107, 107, 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.25);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.left-action-btn-container .btn-text {
+    position: relative;
+    z-index: 2;
+    letter-spacing: 0.5px;
+    transition: transform 0.4s;
+}
+
+.left-action-btn-container .btn-hover-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+              rgba(255,107,107,0.7) 0%, 
+              rgba(255,159,243,0.5) 50%, 
+              rgba(255,107,107,0.3) 100%);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.left-action-btn-container .action-btn:hover {
+    box-shadow: 0 8px 30px rgba(255, 107, 107, 0.4);
+}
+
+.left-action-btn-container .action-btn:hover .btn-text {
+    transform: translateX(5px);
+}
+
+.left-action-btn-container .action-btn:hover .btn-hover-effect {
+    opacity: 1;
+    animation: waveEffect 1.5s infinite linear;
+}
+
+.left-action-btn-container .action-btn:active {
+    transform: scale(0.96);
+}
+
+@keyframes waveEffect {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* MOBİL İÇİN ÖZEL TİMELINE DÜZENLEMESİ (768px altı) */
+@media (max-width: 768px) {
+    /* Çizgiyi ve noktaları kaldır */
+    .modern-timeline::before,
+    .timeline-dot {
+        display: none !important;
+    }
+    
+    /* Timeline item'ı flex yapısını değiştir */
+    .timeline-item {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    
+    /* Tarih yazısını ortala ve düzenle */
+    .timeline-date {
+        width: 100% !important;
+        text-align: center !important;
+        margin: 0 0 10px 0 !important;
+        padding: 8px 15px !important;
+        font-size: 16px !important;
+        order: 1; /* Tarihi üstte göster */
+    }
+    
+    /* İçerik kutusunu genişlet */
+    .timeline-content {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        order: 2; /* İçeriği altta göster */
+    }
+    
+    /* Hover efektlerini kaldır (mobilde gereksiz) */
+    .timeline-date:hover,
+    .timeline-content:hover {
+        transform: none !important;
+    }
+}
+
+/* WEB TARAFI İÇİN ESKİ CSS KODLARI (Aynen kalacak) */
+.modern-timeline {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+.modern-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, 
+        transparent 0%, 
+        #ff6b6b 20%, 
+        #48dbfb 80%, 
+        transparent 100%);
+    z-index: 1;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline-date {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff6b6b;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #48dbfb);
+    border: 4px solid white;
+    box-shadow: 0 0 0 6px rgba(255,107,107,0.2);
+    position: relative;
+    z-index: 2;
+    margin-bottom: 15px;
+}
+
+.timeline-content {
+    width: 90%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.link{
+text-decoration: none;
+color: #ff6b6b;
+
+}
+
+
+/* MÜZİK ÇALAR CSS */
+/* MÜZİK ÇALAR CSS (GÜNCELLENMİŞ) */
+#music-player {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 12px 25px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.2);
+    z-index: 9;
+    width: 85%;
+    max-width: 500px;
+    min-width: 300px;
+    box-sizing: border-box;
+    height: 70px;
+    gap: 10px;
+}
+
+#song-title {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    flex-grow: 1;
+    padding: 0 15px;
+}
+
+#play-pause-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 107, 107, 0.6);
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+/* YENİ EKLENEN NAV BUTONLARI STİLİ */
+.nav-buttons {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0; /* Taşmayı engeller */
+}
+
+#prev-btn, #next-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+}
+
+#prev-btn:hover, #next-btn:hover {
+    color: rgba(255, 107, 107, 0.9);
+    transform: scale(1.1);
+}
+
+#play-pause-btn:hover {
+    background: rgba(255, 107, 107, 0.9);
+    box-shadow: 0 0 0 5px rgba(255, 107, 107, 0.4);
+}
+
+
+
+
+/* MOBİL UYARLAMA */
+@media (max-width: 768px) {
+    #music-player {
+        bottom: 85px;
+        width: 90%;
+        padding: 10px 15px;
+    }
+    
+    #song-title {
+        font-size: 16px;
+    }
+    
+    #play-pause-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .nav-buttons {
+        gap: 3px;
+    }
+    
+    #prev-btn, #next-btn {
+        font-size: 18px;
+        width: 25px;
+        height: 25px;
+    }
+}
+
+/* MOBİL OPTİMİZASYONLARI */
+@media (max-width: 768px) {
+    /* Slider mobil optimizasyonu */
+    .slider {
+        height: 300px !important;
+    }
+    
+    .slider-btn {
+        width: 40px !important;
+        height: 40px !important;
+        padding: 10px !important;
+        font-size: 16px !important;
+    }
+    
+    .slider-btn.prev {
+        left: 10px !important;
+    }
+    
+    .slider-btn.next {
+        right: 10px !important;
+    }
+    
+    /* Şiir alanı optimizasyonu */
+    .poem-container {
+        padding: 20px 15px !important;
+    }
+    
+    .poem-text {
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+    }
+    
+    .poem-container h2 {
+        font-size: 20px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* Timeline optimizasyonu */
+    .timeline-content {
+        padding: 20px !important;
+    }
+    
+    .timeline-content h3 {
+        font-size: 18px !important;
+    }
+    
+    .timeline-content p {
+        font-size: 14px !important;
+    }
+    
+    /* Müzik çalar optimizasyonu */
+    #music-player {
+        bottom: 70px !important;
+        width: calc(100% - 40px) !important;
+        padding: 10px 15px !important;
+        height: 60px !important;
+    }
+    
+    #song-title {
+        font-size: 14px !important;
+    }
+    
+    #play-pause-btn {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 14px !important;
+    }
+    
+    #prev-btn, #next-btn {
+        font-size: 16px !important;
+        width: 25px !important;
+        height: 25px !important;
+    }
+    
+    /* Geri butonu optimizasyonu */
+    .left-action-btn-container {
+        left: 15px !important;
+        bottom: 20px !important;
+    }
+    
+    .left-action-btn-container .action-btn {
+        padding: 10px 20px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* Dokunmatik etkileşimler için */
+button, .action-btn, .slider-btn, .dot {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobilde yatay kaydırmayı önleme */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
