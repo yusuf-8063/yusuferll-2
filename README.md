@@ -1,0 +1,3 @@
+Bu proje kişiye özeldir.
+Hayatımda değer verdiğim önemli bir insana hediye olarak sunuyorum.
+O herşeyin en iyisine layık...
